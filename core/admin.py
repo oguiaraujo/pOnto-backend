@@ -1,3 +1,20 @@
 from django.contrib import admin
+from .models import Bolsista, SessaoTrabalho
 
-# Register your models here.
+class SessaoTrabalhoInLine(admin.TabularInline):
+    model = SessaoTrabalho
+    extra = 0
+    readonly_fields = ['entrada', 'saida', 'min_trabalhados', 'diferenca_min']
+    can_delete = False
+
+@admin.register(Bolsista)
+class BolsistaAdmin(admin.ModelAdmin):
+    list_display = ['nome']
+    search_fields = ['nome']
+    inlines = [SessaoTrabalhoInLine]
+
+@admin.register(SessaoTrabalho)
+class SessaoTrabalhoAdmin(admin.ModelAdmin):
+    list_display = ['bolsista', 'entrada', 'saida', 'min_trabalhados', 'diferenca_min']
+    list_filter = ['bolsista']
+    readonly_fields = ['entrada', 'saida', 'min_trabalhados', 'diferenca_min']
