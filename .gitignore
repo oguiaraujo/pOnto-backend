@@ -1,0 +1,52 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# Virtual Environment
+venv/
+env/
+.venv/
+.env/
+ENV/
+
+# Django
+*.log
+*.pot
+db.sqlite3
+media/
+staticfiles/
+static/
+
+# Variáveis de ambiente
+.env
+.env.*
+!.env.example
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Migrações (opcional — muitos projetos preferem versionar)
+*/migrations/*.py
+!*/migrations/__init__.py
