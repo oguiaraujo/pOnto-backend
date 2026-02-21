@@ -20,7 +20,7 @@ class Bolsista(models.Model):
 class SessaoTrabalho(models.Model):
     bolsista = models.ForeignKey(Bolsista, on_delete=models.CASCADE, verbose_name='Bolsista')
     entrada = models.DateTimeField('Entrada', auto_now_add=True)
-    saida = models.DateTimeField('Saída', auto_now_add=True)
+    saida = models.DateTimeField('Saída', null=True, blank=True)
     min_trabalhados = models.IntegerField('Minutos Trabalhados', null=True, blank=True)
     diferenca_min = models.IntegerField('Diferença (min)', null=True, blank=True)
 
