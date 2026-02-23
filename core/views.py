@@ -51,7 +51,7 @@ def ponto_bolsista(request, pk):
         })
     
 @api_view(['GET'])
-def sessao_bolsista(request, pk):
+def sessoes_bolsista(request, pk):
     try:
         bolsista = Bolsista.objects.get(pk=pk)
     except Bolsista.DoesNotExist:
