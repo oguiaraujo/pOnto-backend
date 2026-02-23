@@ -4,7 +4,8 @@ from .models import Bolsista, SessaoTrabalho
 class SessaoTrabalhoInLine(admin.TabularInline):
     model = SessaoTrabalho
     extra = 0
-    readonly_fields = ['entrada', 'saida', 'min_trabalhados', 'diferenca_min']
+    fields = ['entrada', 'saida', 'min_trabalhados', 'mostra_diferenca']
+    readonly_fields = ['entrada', 'saida', 'min_trabalhados', 'mostra_diferenca', 'diferenca_min']
     can_delete = False
 
 @admin.register(Bolsista)
@@ -15,6 +16,6 @@ class BolsistaAdmin(admin.ModelAdmin):
 
 @admin.register(SessaoTrabalho)
 class SessaoTrabalhoAdmin(admin.ModelAdmin):
-    list_display = ['bolsista', 'entrada', 'saida', 'min_trabalhados', 'diferenca_min']
+    list_display = ['bolsista', 'entrada', 'saida', 'min_trabalhados', 'mostra_diferenca']
     list_filter = ['bolsista']
-    readonly_fields = ['entrada', 'saida', 'min_trabalhados', 'diferenca_min']
+    readonly_fields = ['entrada', 'saida', 'min_trabalhados', 'mostra_diferenca', 'diferenca_min']

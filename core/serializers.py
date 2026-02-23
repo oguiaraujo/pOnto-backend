@@ -1,21 +1,11 @@
 from rest_framework import serializers
-from .models import Bolsista, SessaoTrabalho, MINUTOS_ESPERADOS
+from .models import Bolsista, SessaoTrabalho
 
 class SessaoTrabalhoSerializer(serializers.ModelSerializer):
-    mostra_diferenca = serializers.SerializerMethodField()
 
     class Meta:
         model = SessaoTrabalho
         fields = ['id', 'entrada', 'saida', 'min_trabalhados', 'diferenca_min', 'mostra_diferenca',]
-
-    def get_mostra_diferenca(self, obj):
-        if obj.diferenca_min is None:
-            return None
-        sinal = '+' if obj.diferenca_min >= 0 else '-'
-        total = abs(obj.diferenca_min)
-        horas = total // 60
-        minutos = total % 60
-        return f'{sinal}{horas}h{minutos:02d}m'
         
 class BolsistaSerializer(serializers.ModelSerializer):
     sessao_aberta = serializers.SerializerMethodField()

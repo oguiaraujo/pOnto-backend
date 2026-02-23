@@ -24,10 +24,21 @@ class SessaoTrabalho(models.Model):
     min_trabalhados = models.IntegerField('Minutos Trabalhados', null=True, blank=True)
     diferenca_min = models.IntegerField('Diferença (min)', null=True, blank=True)
 
+    def mostra_diferenca(self):
+        if self.diferenca_min is None:
+            return None
+        sinal = '+' if self.diferenca_min >= 0 else '-'
+        total = abs(self.diferenca_min)
+        horas = total // 60
+        minutos = total % 60
+        return f'{sinal}{horas}h{minutos:02d}m'
+
+    mostra_diferenca.short_description = 'Diferença'
+    
     class Meta:
         verbose_name = 'Sessão'
         verbose_name_plural = 'Sessões'
         ordering = ['-entrada']
 
     def __str__(self):
-        return f'{self.bolsista} — {self.entrada:%d/%m/%Y %H:%M}'
+        return f'{self.bolsista}'
