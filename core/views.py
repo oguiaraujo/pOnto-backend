@@ -2,6 +2,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.utils import timezone
+from django.shortcuts import render, redirect
+from django.contrib import messages
 from .models import Bolsista, SessaoTrabalho, MINUTOS_ESPERADOS
 from .serializers import BolsistaSerializer, SessaoTrabalhoSerializer
 
@@ -60,3 +62,31 @@ def sessoes_bolsista(request, pk):
     sessoes = bolsista.sessaotrabalho_set.all()
     serializer = SessaoTrabalhoSerializer(sessoes, many=True)
     return Response(serializer.data)
+
+def pagina_ponto(request):
+    bolsistas = Bolsista.objects.all()
+
+    if request.method == 'POST':
+        id_bolsista = request.POST.get('id_bolsista')
+        try:
+            bolsista = Bolsista.objects.get(pk=id_bolsista)
+            sessao_aberta = bolsista.sessao_aberta()
+
+            if sessao_aberta is None:
+                SessaoTrabalho.objects.create(bolsista=bolsista)
+                messages.success(request, f'Entrada de {bolsista.nome} registrada!')
+            else:
+                agora = timezone.now()
+                trabalhou = int((agora - sessao_aberta.entrada).total_seconds() / 60)
+                sessao_aberta.saida = agora
+                sessao_aberta.min_trabalhados = trabalhou
+                sessao_aberta.diferenca_min = trabalhou - MINUTOS_ESPERADOS
+                sessao_aberta.save()
+                messages.success(request, f'Saída de {bolsista.nome} registrada!')
+
+        except Bolsista.DoesNotExist:
+            messages.error(request, 'Bolsista não encontrado.')
+
+        return redirect('core:pagina_ponto')
+    
+    return render(request, 'core/ponto.html', {'bolsistas': bolsistas})
