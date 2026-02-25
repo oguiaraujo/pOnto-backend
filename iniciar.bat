@@ -1,5 +1,4 @@
 @echo off
 echo Iniciando pOnto...
-call .venv\Scripts\activate
-python manage.py runserver 0.0.0.0:8000
+.venv\Scripts\python manage.py runserver 0.0.0.0:8000
 pause

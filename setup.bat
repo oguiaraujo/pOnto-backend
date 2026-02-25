@@ -3,7 +3,6 @@ echo ================================
 echo        Configurando pOnto
 echo ================================
 
-:: Verifica se o Python está instalado
 python --version >nul 2>&1
 if errorlevel 1 (
     echo ERRO: Python nao encontrado.
@@ -15,22 +14,18 @@ if errorlevel 1 (
 echo Criando ambiente virtual...
 python -m venv .venv
 
-:: Ativa o ambiente virtual
-call .venv\Scripts\activate
-
 echo Instalando dependencias...
-pip install -r requirements.txt
+.venv\Scripts\pip install -r requirements.txt
 
 echo Criando arquivo .env...
-python setup_env.py
+.venv\Scripts\python setup_env.py
 
 echo Rodando migracoes...
-python manage.py makemigrations
-python manage.py migrate
+.venv\Scripts\python manage.py makemigrations
+.venv\Scripts\python manage.py migrate
 
-:: Cria superusuário
 echo.
-python manage.py createsuperuser
+.venv\Scripts\python manage.py createsuperuser
 
 echo.
 echo ================================

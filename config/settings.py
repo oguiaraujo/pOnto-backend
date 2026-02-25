@@ -1,15 +1,11 @@
 from pathlib import Path
-import os
-from dotenv import load_dotenv
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv()
-
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
-
-DEBUG = os.getenv('DJANGO_DEBUG', 'false') == 'True'
+SECRET_KEY = config('DJANGO_SECRET_KEY')
+DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*']
 
