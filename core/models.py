@@ -27,8 +27,9 @@ class SessaoTrabalho(models.Model):
     def mostra_diferenca(self):
         if self.diferenca_min is None:
             return None
-        sinal = '+' if self.diferenca_min >= 0 else '-'
-        total = abs(self.diferenca_min)
+        diferenca = min(self.diferenca_min, 120)
+        sinal = '+' if diferenca >= 0 else '-'
+        total = abs(diferenca)
         horas = total // 60
         minutos = total % 60
         return f'{sinal}{horas}h{minutos:02d}m'
