@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Bolsista, SessaoTrabalho, MINUTOS_ESPERADOS
 from .serializers import BolsistaSerializer, SessaoTrabalhoSerializer
+from django.conf import settings
 
 @api_view(['GET'])
 def lista_bolsistas(request):
@@ -67,6 +68,12 @@ def pagina_ponto(request):
     bolsistas = Bolsista.objects.all()
 
     if request.method == 'POST':
+        senha = request.POST.get('senha')
+
+        if senha != settings.SENHA_PONTO:
+            messages.error(request, 'Senha incorreta.')
+            return redirect('core:pagina_ponto')
+
         id_bolsista = request.POST.get('id_bolsista')
         try:
             bolsista = Bolsista.objects.get(pk=id_bolsista)
