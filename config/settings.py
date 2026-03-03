@@ -8,6 +8,8 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
 SENHA_PONTO = config('SENHA_PONTO')
 
+ALLOWED_IPS = config('ALLOWED_IPS', default='').split(',')
+
 ALLOWED_HOSTS = ['*']
 
 
@@ -27,6 +29,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "core.middleware.IPWhitelistMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
